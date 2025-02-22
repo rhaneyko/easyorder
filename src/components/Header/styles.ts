@@ -1,14 +1,16 @@
 import styled from "styled-components";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export const HeaderContainer = styled.header`
-  width: 100%;
-  padding: 16px 32px;
-  background-color: ${({ theme }) => theme.colors.primary};
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  padding: 16px 32px;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  background-color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const Logo = styled.h1`
@@ -25,7 +27,7 @@ export const Nav = styled.nav`
 export const NavLink = styled(Link)`
   color: white;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1.3rem;
   transition: color 0.2s;
 
   &:hover {
