@@ -10,36 +10,34 @@ export const HeaderContainer = styled.header`
   left: 0;
   right: 0;
   position: fixed;
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.cardBackground};
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 export const Logo = styled.h1`
-  color: white;
+  color: ${({ theme }) => theme.colors.text};
   font-size: 1.5rem;
   margin: 0;
 `;
 
 export const Nav = styled.nav`
   display: flex;
-  gap: 16px;
+  gap: 20px;
+
 `;
 
 export const NavLink = styled(Link)`
-  color: white;
+  color: ${({ theme }) => theme.colors.text};
   text-decoration: none;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   transition: color 0.2s;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.secondary};
-  }
 `;
 
 export const UserProfile = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  color: white;
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const Avatar = styled.div`
@@ -48,3 +46,5 @@ export const Avatar = styled.div`
   border-radius: 50%;
   background-color: ${({ theme }) => theme.colors.secondary};
 `;
+
+

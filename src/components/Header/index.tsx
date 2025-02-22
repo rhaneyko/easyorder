@@ -9,6 +9,7 @@ import {
     Avatar
 } from "./styles";
 
+
 const Header: React.FC = () => {
     return (
         <HeaderContainer>
