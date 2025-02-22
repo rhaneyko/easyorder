@@ -1,13 +1,22 @@
 import React from "react";
 
-import { CardsContainer, ContainerDashboard, Mesas, Pedidos, VendasDoDia } from "./styles";
+import { CardsContainer, ContainerDashboard, Mesas, Pedidos, PedidosEmAndamento, PedidosEmAndamentoContent, VendasDoDia } from "./styles";
 
 const Dashboard = () => {
     return (
         <ContainerDashboard>
-            <h1>Olá, (NOME DO USUARIO). Bem vindo ao sistema de pedidos. Vamos começar anotar seus pedidos?</h1>
             <CardsContainer>
-                <Pedidos></Pedidos>
+                <Pedidos>
+                    <PedidosEmAndamento>
+                        <span>Pedidos em andamento</span>
+                        <PedidosEmAndamentoContent>
+                            <span>Pedido: 34</span>
+                            <span>Mesa: 12</span>
+                            <span>Cliente: Rhaneyko</span>
+                            <span>Garçom: João Victor Bojikian</span>
+                        </PedidosEmAndamentoContent>
+                    </PedidosEmAndamento>
+                </Pedidos>
                 <Mesas></Mesas>
                 <VendasDoDia></VendasDoDia>
             </CardsContainer>
