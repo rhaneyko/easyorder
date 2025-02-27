@@ -1,63 +1,64 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
 `;
 
 export const PedidosContainer = styled.div`
-   display: flex;
-   gap: 20px;
-   
+  display: flex;
+  gap: 20px;
 `;
 
 export const CardapioContainer = styled.div`
-   display: flex;
-   flex-direction: column;
-   background-color: ${props => props.theme.colors.cardBackground};
-   width: 400px;
-   height: 400px;
-   border: 1px solid ${props => props.theme.colors.border};
-   border-radius: 10px;
-   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: ${(props) => props.theme.colors.cardBackground};
+  width: 400px;
+  height: 400px;
+  border: 1px solid ${(props) => props.theme.colors.border};
+  border-radius: 10px;
+  padding: 10px;
 `;
 
 export const CardapioItem = styled.div`
-   display: flex;
-   justify-content: space-between;
-   padding: 10px;
-   margin: 8px;
-   border: 1px solid ${props => props.theme.colors.border};
-   border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 8px;
+  border: 1px solid ${(props) => props.theme.colors.border};
+  border-radius: 10px;
 `;
 
 export const PedidoAtual = styled.div`
-   display: flex;
-   flex-direction: column;
-   background-color: ${props => props.theme.colors.cardBackground};
-   width: 400px;
-   height: 400px;
-   border: 1px solid ${props => props.theme.colors.border};
-   border-radius: 10px;
-   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: ${(props) => props.theme.colors.cardBackground};
+  width: 400px;
+  height: 400px;
+  border: 1px solid ${(props) => props.theme.colors.border};
+  border-radius: 10px;
+  padding: 10px;
+  overflow-y: auto;
+  gap: 10px;
 `;
 
 export const PedidoItem = styled.div`
-display: flex;
-   justify-content: space-between;
-   padding: 10px;
-   margin: 8px;
-   border: 1px solid ${props => props.theme.colors.border};
-   border-radius: 10px;
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 8px;
+  border: 1px solid ${(props) => props.theme.colors.border};
+  border-radius: 10px;
 `;
 
 export const QuantityControls = styled.div`
   display: flex;
-  margin: 15px;
+  align-items: center;
 
   @media (max-width: 768px) {
     margin: 10px;
@@ -101,12 +102,12 @@ export const ButtonRemoveQuantity = styled.button`
 
 export const QuantitySelect = styled.input`
   width: 50px;
-  height: 46px;
+  height: 44px;
   text-align: center;
   font-size: 16px;
   border: 1px solid #ddd;
   outline: none;
-  padding: 0;
+  padding: 0 0 0 10px;
 
   @media (max-width: 1024px) {
     width: 45px;
@@ -153,4 +154,33 @@ export const ButtonAddQuantity = styled.button`
     height: 36px;
     font-size: 16px;
   }
+`;
+
+export const RemoveButton = styled.button`
+  padding: 7px;
+  margin-top: -60px;
+  margin-right: -20px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #f44336;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #d32f2f;
+  }
+
+  @media (max-width: 768px) {
+    width: 25px;
+    height: 25px;
+    font-size: 14px;
+  }
+`;
+
+export const Price = styled.span`
+  font-size: 20px;
+  margin: 10px;
+  text-align: end;
 `;

@@ -10,7 +10,9 @@ import {
     QuantityControls,
     ButtonAddQuantity,
     ButtonRemoveQuantity,
-    QuantitySelect
+    QuantitySelect,
+    RemoveButton,
+    Price
 } from "./styles";
 
 const data = [
@@ -36,12 +38,17 @@ interface PedidoItem {
 const Pedidos = () => {
     const [pedido, setPedido] = useState<PedidoItem[]>([]);
 
+    const removerItem = (item: Item) => {
+        setPedido((prevPedido) => prevPedido.filter((pedidoItem) => pedidoItem.item.id !== item.id));
+    }
+
+
     const adicionarItem = (item: Item) => {
         setPedido((prevPedido) => {
             const itemExistente = prevPedido.find((pedidoItem) => pedidoItem.item.id === item.id);
-            
+
             if (itemExistente) {
-                return prevPedido.map((pedidoItem) => 
+                return prevPedido.map((pedidoItem) =>
                     pedidoItem.item.id === item.id
                         ? { ...pedidoItem, quantidade: pedidoItem.quantidade + 1 }
                         : pedidoItem
@@ -53,7 +60,7 @@ const Pedidos = () => {
     };
 
     const alterarQuantidade = (itemId: number, quantidade: number) => {
-        setPedido((prevPedido) => 
+        setPedido((prevPedido) =>
             prevPedido
                 .map((pedidoItem) =>
                     pedidoItem.item.id === itemId
@@ -82,11 +89,6 @@ const Pedidos = () => {
 
                 <PedidoAtual>
                     <h2>Pedido Atual</h2>
-                    {pedido.length === 0 ? (
-                        <span>Nenhum item adicionado</span>
-                    ) : (
-                        <span>Total: R$ {totalCompra.toFixed(2)}</span>
-                    )}
 
                     {pedido.map(({ item, quantidade }) => (
                         <PedidoItem key={item.id}>
@@ -96,9 +98,17 @@ const Pedidos = () => {
                                 <ButtonRemoveQuantity onClick={() => alterarQuantidade(item.id, -1)}>-</ButtonRemoveQuantity>
                                 <QuantitySelect type="number" readOnly value={quantidade} />
                                 <ButtonAddQuantity onClick={() => alterarQuantidade(item.id, 1)}>+</ButtonAddQuantity>
+                                <RemoveButton onClick={() => removerItem(item)}>X</RemoveButton>
                             </QuantityControls>
                         </PedidoItem>
                     ))}
+
+
+                    {pedido.length === 0 ? (
+                        <span>Nenhum item adicionado</span>
+                    ) : (
+                        <Price>Total: R$ {totalCompra.toFixed(2)}</Price>
+                    )}
                 </PedidoAtual>
             </PedidosContainer>
         </Container>
