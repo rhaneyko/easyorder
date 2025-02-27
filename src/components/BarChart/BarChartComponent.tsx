@@ -19,7 +19,7 @@ const BarChartComponent: React.FC = () => (
       <XAxis dataKey="name" />
       <YAxis />
       <Tooltip />
-      <Bar dataKey="vendas" fill="#dbb313" />
+      <Bar dataKey="vendas" fill="#cc4e18" />
     </BarChart>
   </ResponsiveContainer>
 );
