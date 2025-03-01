@@ -9,31 +9,38 @@ import {
     Form,
     Input,
     Button,
+    SelectUserType,
+    OptionUserType,
 } from "./styles";
 
 const Register = () => {
     const navigate = useNavigate();
     const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
-    const [userType, setUserType] = useState("garcom");
+    const [userType, setUserType] = useState("");
     const [error, setError] = useState("");
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!name || !email || !password) {
+        if (!name || !userName || !password) {
             setError("Preencha todos os campos");
             return;
         }
 
         try {
+            // Cria um email válido baseado no userName
+            const email = `${userName}@easyorder.com`;
+
+            // Cria o usuário no Firebase Authentication
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
+            // Salva os dados do usuário no Firestore
             await setDoc(doc(db, "users", user.uid), {
                 name,
-                email,
+                userName,
                 userType,
             });
 
@@ -42,7 +49,7 @@ const Register = () => {
             setError("Erro ao cadastrar usuário");
             console.error(error);
         }
-    }
+    };
 
     return (
         <Container>
@@ -58,14 +65,14 @@ const Register = () => {
                 />
 
                 <Input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="E-mail"
+                    type="text"
+                    id="userName"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                    placeholder="Usuário"
                     required
                 />
-                
+
                 <Input
                     type="password"
                     id="password"
@@ -73,11 +80,18 @@ const Register = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Senha"
                 />
-
+                <SelectUserType
+                    id="userType"
+                    value={userType}
+                    onChange={(e) => setUserType(e.target.value)}>
+                    <OptionUserType>Selecione o tipo de usuário:</OptionUserType>
+                    <OptionUserType value="gerente">Gerente</OptionUserType>
+                    <OptionUserType value="garcom">Garçom</OptionUserType>
+                </SelectUserType>
                 <Button type="submit">Cadastrar</Button>
             </Form>
         </Container>
-    )
+    );
 };
 
 export default Register;
