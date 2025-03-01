@@ -5,7 +5,7 @@ import { db, auth } from "../api/firebaseConfig";
 
 interface User {
   uid: string;
-  email: string | null;
+  username: string;
   userType: string;
 }
 
@@ -34,12 +34,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (firebaseUser) {
         const userDocRef = doc(db, "users", firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
-
+  
         if (userDoc.exists()) {
           const userData = userDoc.data();
           const sessionUser = {
             uid: firebaseUser.uid,
-            email: firebaseUser.email,
+            username: userData.username || "",
             userType: userData.userType || "usuario",
           };
           setUser(sessionUser);
@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
       setLoading(false);
     });
-
+  
     return () => unsubscribe();
   }, []);
 
