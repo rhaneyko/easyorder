@@ -5,17 +5,14 @@ import { auth, db } from "../api/firebaseConfig";
 interface UserData {
   nome: string;
   username: string;
+  email: string;
   senha: string;
   tipoUsuario: string;
 }
 
 // Registrar usuário e salvar no Firestore
 export const registerUserWithRole = async (userData: UserData) => {
-  const { nome, username, senha, tipoUsuario } = userData;
-
-
-  // Cria um email válido baseado no userName.
-  const email = `${username}@easyorder.com`
+  const { nome, username, email, senha, tipoUsuario } = userData;
 
   // Criar usuário no Firebase Authentication
   const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
@@ -26,6 +23,7 @@ export const registerUserWithRole = async (userData: UserData) => {
     nome,
     username,
     userType: tipoUsuario,
+    email, // Certifique-se de que o email está sendo salvo
     createdAt: new Date(),
   });
 };
