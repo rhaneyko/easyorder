@@ -16,7 +16,8 @@ import {
 const Register = () => {
     const navigate = useNavigate();
     const [name, setName] = useState("");
-    const [userName, setUserName] = useState("");
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [userType, setUserType] = useState("");
     const [error, setError] = useState("");
@@ -24,14 +25,12 @@ const Register = () => {
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!name || !userName || !password) {
+        if (!name || !username || !password) {
             setError("Preencha todos os campos");
             return;
         }
 
         try {
-            // Cria um email válido baseado no userName
-            const email = `${userName}@easyorder.com`;
 
             // Cria o usuário no Firebase Authentication
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -40,7 +39,8 @@ const Register = () => {
             // Salva os dados do usuário no Firestore
             await setDoc(doc(db, "users", user.uid), {
                 name,
-                userName,
+                username,
+                email,
                 userType,
             });
 
@@ -67,9 +67,18 @@ const Register = () => {
                 <Input
                     type="text"
                     id="userName"
-                    value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     placeholder="Usuário"
+                    required
+                />
+
+                <Input
+                    type="text"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
                     required
                 />
 
