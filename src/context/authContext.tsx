@@ -31,36 +31,40 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        const userDocRef = doc(db, "users", firebaseUser.uid);
-        const userDoc = await getDoc(userDocRef);
-  
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          const sessionUser = {
-            uid: firebaseUser.uid,
-            username: userData.username || "",
-            userType: userData.userType || "usuario",
-          };
-          setUser(sessionUser);
-          localStorage.setItem("user", JSON.stringify(sessionUser));
+        if (firebaseUser) {
+            const userDocRef = doc(db, "users", firebaseUser.uid);
+            const userDoc = await getDoc(userDocRef);
+
+            if (userDoc.exists()) {
+                const userData = userDoc.data();
+                const sessionUser = {
+                    uid: firebaseUser.uid,
+                    username: userData.username || "",
+                    userType: userData.userType || "usuario",
+                };
+                setUser(sessionUser);
+                localStorage.setItem("user", JSON.stringify(sessionUser));
+            }
+        } else {
+            setUser(null);
+            localStorage.removeItem("user");
         }
-      } else {
-        setUser(null);
-        localStorage.removeItem("user");
-      }
-      setLoading(false);
+        setLoading(false);
     });
-  
+
     return () => unsubscribe();
-  }, []);
+}, []);
 
   const logout = async () => {
-    await signOut(auth);
-    setUser(null);
-    localStorage.removeItem("user");
-    window.location.href = "/login"; // Garante o redirecionamento
-  };
+    try {
+        await signOut(auth); // Faz logout no Firebase Authentication
+        setUser(null); // Limpa o estado do usuário
+        localStorage.removeItem("user"); // Remove o usuário do localStorage
+        window.location.href = "/login"; // Redireciona para a página de login
+    } catch (error) {
+        console.error("Erro ao fazer logout:", error);
+    }
+};
 
   return (
     <AuthContext.Provider value={{ user, loading, logout }}>
