@@ -14,41 +14,39 @@ import {
 } from "./styles";
 
 const Register = () => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [userType, setUserType] = useState('medico');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
-    const [name, setName] = useState("");
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [userType, setUserType] = useState("");
-    const [error, setError] = useState("");
-
+  
     const handleRegister = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (!name || !username || !password) {
-            setError("Preencha todos os campos");
-            return;
-        }
-
-        try {
-
-            // Cria o usuário no Firebase Authentication
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-
-            // Salva os dados do usuário no Firestore
-            await setDoc(doc(db, "users", user.uid), {
-                name,
-                username,
-                email,
-                userType,
-            });
-
-            navigate("/login");
-        } catch (error) {
-            setError("Erro ao cadastrar usuário");
-            console.error(error);
-        }
+      e.preventDefault();
+  
+      if (!name || !email || !password) {
+        setError('Preencha todos os campos');
+        return;
+      }
+  
+      try {
+        // Cria o usuário no Firebase Authentication
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+  
+        // Salva informações adicionais no Firestore
+        await setDoc(doc(db, 'users', user.uid), {
+          name,
+          email,
+          userType,
+        });
+  
+        // Redireciona para a tela de login
+        navigate('/login');
+      } catch (error) {
+        setError('Erro ao registrar usuário. Tente novamente.');
+        console.error(error);
+      }
     };
 
     return (
@@ -65,16 +63,7 @@ const Register = () => {
                 />
 
                 <Input
-                    type="text"
-                    id="userName"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Usuário"
-                    required
-                />
-
-                <Input
-                    type="text"
+                    type="email"
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
