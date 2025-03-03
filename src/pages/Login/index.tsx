@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../api/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { query, collection, where, getDocs } from "firebase/firestore";
-import { db } from "../../api/firebaseConfig";
 
 import {
     Container,
@@ -14,49 +12,29 @@ import {
 
 const Login = () => {
     const navigate = useNavigate();
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-    
-        if (!username || !password) {
-            setError("Preencha todos os campos");
-            return;
-        }
-    
+        setError("");
+        setLoading(true);
+
         try {
-            // Busca o usuário no Firestore pelo username
-            const usersRef = collection(db, "users");
-            const q = query(usersRef, where("username", "==", username));
-            const querySnapshot = await getDocs(q);
-    
-            if (querySnapshot.empty) {
-                setError("Usuário não encontrado");
-                return;
-            }
-    
-            // Recupera o primeiro documento encontrado
-            const userDoc = querySnapshot.docs[0];
-            const userData = userDoc.data();
-    
-            // Recupera o email fictício do Firestore
-            const email = userData.email;
-    
-            if (!email) {
-                setError("Email não encontrado no documento do usuário");
-                return;
-            }
-    
-            // Autentica o usuário com o email fictício e a senha
-            await signInWithEmailAndPassword(auth, email, password);
-    
-            // Redireciona para a página inicial após o login
-            navigate("/");
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log("Usuário autenticado:", userCredential.user);
+
+            // Aguarda o AuthContext atualizar e redireciona
+            setTimeout(() => {
+                navigate("/");
+            }, 1000);
         } catch (error) {
-            setError("Erro ao fazer login");
-            console.error(error);
+            setError("❌ Erro ao fazer login. Verifique seu email e senha.");
+            console.error("Erro no login:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -66,9 +44,9 @@ const Login = () => {
             <Form onSubmit={handleLogin}>
                 <Input
                     type="text"
-                    id="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="Usuário"
                     required
                 />
