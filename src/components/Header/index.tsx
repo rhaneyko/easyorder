@@ -37,7 +37,7 @@ const Header: React.FC = () => {
             </Nav>
             <UserProfile onClick={handleUserProfileClick}>
                 <Avatar />
-                <span>{user ? user.username : "Usuário"}</span>
+                <span>{user ? user.email : "Usuário"}</span>
             </UserProfile>
 
             {/* Modal */}
@@ -46,7 +46,7 @@ const Header: React.FC = () => {
                     <ModalContent onClick={(e) => e.stopPropagation()}>
                         <CloseButton onClick={handleCloseModal}>×</CloseButton>
                         <h2>Perfil do Usuário</h2>
-                        <p>Usuário: {user?.username}</p>
+                        <p>Usuário: {user?.email}</p>
                         <p>Tipo: {user?.userType}</p>
                         <LogoutButton onClick={logout}>Sair</LogoutButton>
                     </ModalContent>
